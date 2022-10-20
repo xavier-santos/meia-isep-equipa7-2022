@@ -13,7 +13,7 @@
  * limitations under the License.
 */
 
-package org.engcia;
+package org.defect.bubbled;
 
 import org.engcia.model.Evidence;
 import org.engcia.model.Hypothesis;
@@ -28,25 +28,57 @@ end
 
 rule "r1"
 	when
-		eval(answer(Evidence.AI_VISION, "no" ))
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "no" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.TURN_ON_AI_SYSTEM);
+		Conclusion c = new Conclusion(Conclusion.TRAJECTORY_CORRECTION);
 		insert(c);
 end
 
 rule "r2"
 	when
-        eval(answer(Evidence.MOLD_PARAMS, "yes" ))
+		eval(answer(Evidence.AUTOVENT_OPERATION, "no" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.CHECK_AI_SYSTEM_PLC_COMMUNICATION);
+		Conclusion c = new Conclusion(Conclusion.AUTOVENT_MAINTENANCE);
 		insert(c);
 end
 
 rule "r3"
 	when
-		eval(answer(Evidence.MOLD_PARAMS, "no"))
+		eval(answer(Evidence.SEAL_ANOMALIES, "no" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.REVIEW_PARAMS);
+		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
+		insert(c);
+end
+
+rule "r4"
+	when
+		eval(answer(Evidence.SEAL_TAPE, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_PLACING);
+		insert(c);
+end
+
+rule "r5"
+	when
+		eval(answer(Evidence.SEAL_TAPE_STATE, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_REPLACING);
+		insert(c);
+end
+
+rule "r5"
+	when
+		eval(answer(Evidence.SEAL_TAPE_POSITION, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_POSITION_CORRECTION);
+		insert(c);
+end
+
+rule "r6"
+	when
+		eval(answer(Evidence.SEAL_TAPE_POSITION, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
 		insert(c);
 end
 

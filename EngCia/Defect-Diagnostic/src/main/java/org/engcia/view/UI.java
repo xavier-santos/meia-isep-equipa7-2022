@@ -65,7 +65,7 @@ public class UI {
         }
     }
 
-    private static String readLine() {
+    public static String readLine() {
         String input = "";
 
         try {

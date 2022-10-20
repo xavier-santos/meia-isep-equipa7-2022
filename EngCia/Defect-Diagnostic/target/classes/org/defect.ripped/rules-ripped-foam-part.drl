@@ -1,0 +1,124 @@
+/*
+ * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
+package org.defect.ripped;
+
+import org.engcia.model.Evidence;
+import org.engcia.model.Hypothesis;
+import org.engcia.model.Conclusion;
+import org.engcia.model.Fact;
+
+import function org.engcia.view.UI.answer;
+
+query "Conclusions"
+	$conclusion : Conclusion()
+end
+
+rule "r1"
+	when
+		eval(answer(Evidence.TEMPERATURE_CHECK, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.TEMPERATURE_ADJUSTMENT);
+		insert(c);
+end
+
+rule "r2"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "yes" ))
+		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.MANUAL_DEMOULDING_PROCESS_CORRECTION);
+		insert(c);
+end
+
+rule "r3"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "yes" ))
+		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
+		insert(c);
+end
+
+rule "r4"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "no" ))
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_FILTER);
+		insert(c);
+end
+
+rule "r5"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "no" ))
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
+		insert(c);
+end
+
+rule "r6"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "yes" ))
+		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
+		insert(c);
+end
+
+rule "r7"
+	when
+		eval(answer(Evidence.AUTO_PULVERIZATION, "yes" ))
+		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "no" ))
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_FILTER);
+		insert(c);
+end
+
+rule "r8"
+	when
+		eval(answer(Evidence.ROBOT_TRAJECTORY, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.ROBOT_TRAJECTORY_CORRECTION);
+		insert(c);
+end
+
+rule "r9"
+	when
+		eval(answer(Evidence.ROBOT_TRAJECTORY, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.MANUAL_DEMOULDING_PROCESS_CORRECTION);
+		insert(c);
+end
+
+rule "unknown"
+	when
+		not Conclusion()
+	then
+		Conclusion c = new Conclusion(Conclusion.UNKNOWN);
+		insert(c);
+end
+
+query "evidence"(String ev, String v)
+	e : Evidence( evidence == ev, value == v )
+end
+

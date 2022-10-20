@@ -1,0 +1,104 @@
+/*
+ * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
+package org.defect.collapsed;
+
+import org.engcia.model.Evidence;
+import org.engcia.model.Hypothesis;
+import org.engcia.model.Conclusion;
+import org.engcia.model.Fact;
+
+import function org.engcia.view.UI.answer;
+
+query "Conclusions"
+	$conclusion : Conclusion()
+end
+
+rule "r1"
+	when
+		eval(answer(Evidence.TEMPERATURE_CHECK, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.TEMPERATURE_ADJUSTMENT);
+		insert(c);
+end
+
+rule "r2"
+	when
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.TRAJECTORY_CORRECTION);
+		insert(c);
+end
+
+rule "r3"
+	when
+		eval(answer(Evidence.AUTOVENT_OPERATION, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.AUTOVENT_MAINTENANCE);
+		insert(c);
+end
+
+rule "r4"
+	when
+		eval(answer(Evidence.SEAL_ANOMALIES, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_PLACING);
+		insert(c);
+end
+
+rule "r5"
+	when
+		eval(answer(Evidence.FOAM_INJECTION_PARAMETERS, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.RESET_PARAMETERS);
+		insert(c);
+end
+
+rule "r5"
+	when
+		eval(answer(Evidence.FOAMMAT_SUCCESS, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.REPLACE_PRODUCTS);
+		insert(c);
+end
+
+rule "r6"
+	when
+		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.REVIEW_PRODUCT_DEBTS);
+		insert(c);
+end
+
+rule "r7"
+	when
+		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.REPLACE_PRODUCTS);
+		insert(c);
+end
+
+rule "unknown"
+	when
+		not Conclusion()
+	then
+		Conclusion c = new Conclusion(Conclusion.UNKNOWN);
+		insert(c);
+end
+
+query "evidence"(String ev, String v)
+	e : Evidence( evidence == ev, value == v )
+end
+
