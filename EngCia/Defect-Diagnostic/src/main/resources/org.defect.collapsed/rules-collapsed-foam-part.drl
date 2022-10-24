@@ -66,7 +66,7 @@ rule "r5"
 		insert(c);
 end
 
-rule "r5"
+rule "r6"
 	when
 		eval(answer(Evidence.FOAMMAT_SUCCESS, "yes" ))
 	then
@@ -74,7 +74,7 @@ rule "r5"
 		insert(c);
 end
 
-rule "r6"
+rule "r7"
 	when
 		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "no" ))
 	then
@@ -82,7 +82,7 @@ rule "r6"
 		insert(c);
 end
 
-rule "r7"
+rule "r8"
 	when
 		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "yes" ))
 	then
