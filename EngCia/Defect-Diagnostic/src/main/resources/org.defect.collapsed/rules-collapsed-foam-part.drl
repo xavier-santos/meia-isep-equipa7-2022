@@ -36,54 +36,114 @@ end
 
 rule "r2"
 	when
+		eval(answer(Evidence.TEMPERATURE_CHECK, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("Temperature state", "ok");
+		insert(h);
+end
+
+rule "r3"
+	when
+		Hypothesis( description == "temperature state", value == "ok")
 		eval(answer(Evidence.INJECTION_TRAJECTORY, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.TRAJECTORY_CORRECTION);
 		insert(c);
 end
 
-rule "r3"
+rule "r4"
 	when
+		Hypothesis( description == "temperature state", value == "ok")
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("injection trajectory", "correct");
+		insert(h);
+end
+
+rule "r5"
+	when
+		Hypothesis( description == "injection trajectory", value == "correct")
 		eval(answer(Evidence.AUTOVENT_OPERATION, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.AUTOVENT_MAINTENANCE);
 		insert(c);
 end
 
-rule "r4"
+rule "r6"
 	when
+		Hypothesis( description == "injection trajectory", value == "correct")
+		eval(answer(Evidence.AUTOVENT_OPERATION, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("autovent operation", "correct");
+		insert(h);
+end
+
+rule "r7"
+	when
+		Hypothesis( description == "autovent operation", value == "correct")
 		eval(answer(Evidence.SEAL_ANOMALIES, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_PLACING);
 		insert(c);
 end
 
-rule "r5"
+rule "r8"
 	when
+		Hypothesis( description == "autovent operation", value == "correct")
+		eval(answer(Evidence.SEAL_ANOMALIES, "no" ))
+	then
+		Hypothesis h = new Hypothesis("visible anomalies", "no");
+		insert(h);
+end
+
+rule "r9"
+	when
+		Hypothesis( description == "visible anomalies", value == "no")
 		eval(answer(Evidence.FOAM_INJECTION_PARAMETERS, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.RESET_PARAMETERS);
 		insert(c);
 end
 
-rule "r6"
+rule "r10"
 	when
+		Hypothesis( description == "visible anomalies", value == "no")
+		eval(answer(Evidence.FOAM_INJECTION_PARAMETERS, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("injection foam parameters", "ok");
+		insert(h);
+end
+
+rule "r11"
+	when
+		Hypothesis( description == "injection foam parameters", value == "ok")
 		eval(answer(Evidence.FOAMMAT_SUCCESS, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.REPLACE_PRODUCTS);
 		insert(c);
 end
 
-rule "r7"
+rule "r12"
 	when
+		Hypothesis( description == "injection foam parameters", value == "ok")
+		eval(answer(Evidence.FOAMMAT_SUCCESS, "no" ))
+	then
+		Hypothesis h = new Hypothesis("foammat test", "failed");
+		insert(h);
+end
+
+rule "r13"
+	when
+		Hypothesis( description == "foammat test", value == "failed")
 		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.REVIEW_PRODUCT_DEBTS);
 		insert(c);
 end
 
-rule "r8"
+rule "r14"
 	when
+		Hypothesis( description == "foammat test", value == "failed")
 		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.REPLACE_PRODUCTS);

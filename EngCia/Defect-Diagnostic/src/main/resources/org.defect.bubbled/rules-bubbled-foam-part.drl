@@ -36,46 +36,96 @@ end
 
 rule "r2"
 	when
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("injection trajectory", "correct");
+		insert(h);
+end
+
+rule "r3"
+	when
+	    Hypothesis( description == "injection trajectory", value == "correct")
 		eval(answer(Evidence.AUTOVENT_OPERATION, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.AUTOVENT_MAINTENANCE);
 		insert(c);
 end
 
-rule "r3"
+rule "r4"
 	when
+	    Hypothesis( description == "injection trajectory", value == "correct")
+		eval(answer(Evidence.AUTOVENT_OPERATION, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("autovent operation", "correct");
+		insert(h);
+end
+
+rule "r5"
+	when
+		Hypothesis( description == "autovent operation", value == "correct")
 		eval(answer(Evidence.SEAL_ANOMALIES, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
 		insert(c);
 end
 
-rule "r4"
+rule "r6"
 	when
+		Hypothesis( description == "autovent operation", value == "correct")
+		eval(answer(Evidence.SEAL_ANOMALIES, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("visible anomalies", "yes");
+		insert(h);
+end
+
+rule "r7"
+	when
+		Hypothesis( description == "visible anomalies", value == "yes")
 		eval(answer(Evidence.SEAL_TAPE, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_PLACING);
 		insert(c);
 end
 
-rule "r5"
+rule "r8"
 	when
+		Hypothesis( description == "visible anomalies", value == "yes")
+		eval(answer(Evidence.SEAL_TAPE, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("tape on mold", "yes");
+		insert(h);
+end
+
+rule "r9"
+	when
+		Hypothesis( description == "tape on mold", value == "yes")
 		eval(answer(Evidence.SEAL_TAPE_STATE, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_REPLACING);
 		insert(c);
 end
 
-rule "r6"
+rule "r10"
 	when
+		Hypothesis( description == "tape on mold", value == "yes")
+		eval(answer(Evidence.SEAL_TAPE_STATE, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("tape on mold in good state", "yes");
+		insert(h);
+end
+
+rule "r11"
+	when
+		Hypothesis( description == "tape on mold in good state", value == "yes")
 		eval(answer(Evidence.SEAL_TAPE_POSITION, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.SEAL_TAPE_POSITION_CORRECTION);
 		insert(c);
 end
 
-rule "r7"
+rule "r12"
 	when
+		Hypothesis( description == "tape on mold in good state", value == "yes")
 		eval(answer(Evidence.SEAL_TAPE_POSITION, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
