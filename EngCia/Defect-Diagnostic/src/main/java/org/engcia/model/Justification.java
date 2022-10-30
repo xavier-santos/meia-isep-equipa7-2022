@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Justification {
-    private String rule;
-    private List<Fact> lhs;
-    private Fact conclusion;
+    private final String rule;
+    private final List<Fact> lhs;
+    private final Fact conclusion;
 
     public Justification(String rule, List<Fact> lhs, Fact conclusion) {
         this.rule = rule;

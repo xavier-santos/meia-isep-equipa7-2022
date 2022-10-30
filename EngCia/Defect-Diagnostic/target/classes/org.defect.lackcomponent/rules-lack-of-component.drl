@@ -20,7 +20,7 @@ import org.engcia.model.Hypothesis;
 import org.engcia.model.Conclusion;
 import org.engcia.model.Fact;
 
-import function org.engcia.view.UI.answer;
+import function org.engcia.utils.FiredRule.answer;
 
 query "Conclusions"
 	$conclusion : Conclusion()
@@ -36,14 +36,24 @@ end
 
 rule "r2"
 	when
+		eval(answer(Evidence.AI_VISION, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("AI vision system", "on");
+		insert(h);
+end
+
+rule "r3"
+	when
+		Hypothesis( description == "AI vision system", value == "on")
         eval(answer(Evidence.MOLD_PARAMS, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.CHECK_AI_SYSTEM_PLC_COMMUNICATION);
 		insert(c);
 end
 
-rule "r3"
+rule "r4"
 	when
+		Hypothesis( description == "AI vision system", value == "on")
 		eval(answer(Evidence.MOLD_PARAMS, "no"))
 	then
 		Conclusion c = new Conclusion(Conclusion.REVIEW_PARAMS);

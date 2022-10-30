@@ -7,7 +7,7 @@ import org.engcia.model.Hypothesis;
 import org.engcia.model.Justification;
 
 public class How {
-    private Map<Integer, Justification> justifications;
+    private final Map<Integer, Justification> justifications;
 
     public How(Map<Integer, Justification> justifications) {
         this.justifications = justifications;

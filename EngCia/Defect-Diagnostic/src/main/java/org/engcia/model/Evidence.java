@@ -35,8 +35,8 @@ public class Evidence extends Fact{
     public static final String TEMPERATURE_CHECK = "Is mold temperature between 56±2ºC"; //collapsing, ripping
 
 
-    private String evidence;
-    private String value;
+    private final String evidence;
+    private final String value;
 
     public Evidence(String ev, String v) {
         evidence = ev;

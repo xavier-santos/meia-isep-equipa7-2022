@@ -1,15 +1,15 @@
 package org.engcia.model;
 
-import org.engcia.diagnostic.DefectDiagnostic;
+import org.engcia.utils.Engine;
 
 public class Hypothesis extends Fact{
-    private String description;
-    private String value;
+    private final String description;
+    private final String value;
 
     public Hypothesis(String description, String value) {
         this.description = description;
         this.value = value;
-        DefectDiagnostic.agendaEventListener.addRhs(this);
+        Engine.agendaEventListener.addRhs(this);
     }
 
     public String getDescription() {

@@ -20,7 +20,7 @@ import org.engcia.model.Hypothesis;
 import org.engcia.model.Conclusion;
 import org.engcia.model.Fact;
 
-import function org.engcia.view.UI.answer;
+import function org.engcia.utils.FiredRule.answer;
 
 query "Conclusions"
 	$conclusion : Conclusion()
@@ -36,59 +36,53 @@ end
 
 rule "r2"
 	when
-		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "yes" ))
-		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "no" ))
+		eval(answer(Evidence.TEMPERATURE_CHECK, "yes" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.MANUAL_DEMOULDING_PROCESS_CORRECTION);
-		insert(c);
+		Hypothesis h = new Hypothesis("temperature state", "ok");
+		insert(h);
 end
+
 
 rule "r3"
 	when
+	    Hypothesis( description == "temperature state", value == "ok")
 		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "yes" ))
-		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "yes" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.MOLD_REVISION);
-		insert(c);
+		Hypothesis h = new Hypothesis("automatic pulverization", "no");
+		insert(h);
 end
 
 rule "r4"
 	when
-		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "no" ))
-		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
+	    Hypothesis( description == "temperature state", value == "ok")
+		eval(answer(Evidence.AUTO_PULVERIZATION, "yes" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_FILTER);
-		insert(c);
+		Hypothesis h = new Hypothesis("automatic pulverization", "yes");
+		insert(h);
 end
 
 rule "r5"
 	when
-		eval(answer(Evidence.AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "no" ))
-		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	    Hypothesis( description == "automatic pulverization", value == "no")
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "yes" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
-		insert(c);
+		Hypothesis h = new Hypothesis("standard manual pulverization", "correct");
+		insert(h);
 end
 
 rule "r6"
 	when
-		eval(answer(Evidence.AUTO_PULVERIZATION, "yes" ))
-		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
+	    Hypothesis( description == "automatic pulverization", value == "no")
+		eval(answer(Evidence.STANDARD_MANUAL_PULVERIZATION, "no" ))
 	then
-		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
-		insert(c);
+		Hypothesis h = new Hypothesis("standard manual pulverization", "incorrect");
+		insert(h);
 end
 
 rule "r7"
 	when
-		eval(answer(Evidence.AUTO_PULVERIZATION, "yes" ))
-		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "no" ))
-		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	    Hypothesis( description == "standard manual pulverization", value == "no")
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_FILTER);
 		insert(c);
@@ -96,14 +90,79 @@ end
 
 rule "r8"
 	when
+	    Hypothesis( description == "standard manual pulverization", value == "no")
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
+		insert(c);
+end
+
+rule "r9"
+	when
+	    Hypothesis( description == "standard manual pulverization", value == "yes")
+		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.MANUAL_DEMOULDING_PROCESS_CORRECTION);
+		insert(c);
+end
+
+rule "r10"
+	when
+	    Hypothesis( description == "standard manual pulverization", value == "yes")
+		eval(answer(Evidence.STANDARD_MANUAL_OPERATOR, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.TRAJECTORY_PISTOL_TRAINING);
+		insert(c);
+end
+
+rule "r11"
+	when
+	    Hypothesis( description == "automatic pulverization", value == "yes")
+		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "yes" ))
+	then
+		Hypothesis h = new Hypothesis("standard automatic pulverization", "yes");
+		insert(h);
+end
+
+rule "r12"
+	when
+	    Hypothesis( description == "automatic pulverization", value == "yes")
+		eval(answer(Evidence.STANDARD_AUTO_PULVERIZATION, "no" ))
+	then
+		Hypothesis h = new Hypothesis("standard automatic pulverization", "no");
+		insert(h);
+end
+
+rule "r13"
+	when
+	    Hypothesis( description == "standard automatic pulverization", value == "no")
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "yes" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_NOZZLE);
+		insert(c);
+end
+
+rule "r14"
+	when
+	    Hypothesis( description == "standard automatic pulverization", value == "no")
+		eval(answer(Evidence.HYDRAULIC_CIRCUIT_FLOW, "no" ))
+	then
+		Conclusion c = new Conclusion(Conclusion.CLEAN_PISTOL_FILTER);
+		insert(c);
+end
+
+rule "r15"
+	when
+	    Hypothesis( description == "standard automatic pulverization", value == "yes")
 		eval(answer(Evidence.ROBOT_TRAJECTORY, "no" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.ROBOT_TRAJECTORY_CORRECTION);
 		insert(c);
 end
 
-rule "r9"
+rule "r16"
 	when
+		Hypothesis( description == "standard automatic pulverization", value == "yes")
 		eval(answer(Evidence.ROBOT_TRAJECTORY, "yes" ))
 	then
 		Conclusion c = new Conclusion(Conclusion.MANUAL_DEMOULDING_PROCESS_CORRECTION);

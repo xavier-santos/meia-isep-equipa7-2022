@@ -1,6 +1,6 @@
 package org.engcia.model;
 
-import org.engcia.diagnostic.DefectDiagnostic;
+import org.engcia.utils.Engine;
 
 public class Conclusion extends Fact{
 
@@ -43,11 +43,11 @@ public class Conclusion extends Fact{
     //General
     public static final String UNKNOWN = "Please contact support system";
 
-    private String description;
+    private final String description;
 
     public Conclusion(String description) {
         this.description = description;
-        DefectDiagnostic.agendaEventListener.addRhs(this);
+        Engine.agendaEventListener.addRhs(this);
     }
 
     public String getDescription() {
