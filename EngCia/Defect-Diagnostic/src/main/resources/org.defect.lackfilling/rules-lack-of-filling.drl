@@ -20,7 +20,7 @@ import org.engcia.model.Hypothesis;
 import org.engcia.model.Conclusion;
 import org.engcia.model.Fact;
 
-import function org.engcia.view.UI.answer;
+import function org.engcia.view.QuestionFactory.answer;
 
 query "Conclusions"
 	$conclusion : Conclusion()

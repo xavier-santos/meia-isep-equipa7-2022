@@ -52,8 +52,6 @@ public class TrackingAgendaEventListener extends DefaultAgendaEventListener{
     public void afterMatchFired(AfterMatchFiredEvent event) {
         Rule rule = event.getMatch().getRule();
         String ruleName = rule.getName();
-
-        //System.out.println("LHS:");
         List <Object> list = event.getMatch().getObjects();
         for (Object e : list) {
             if (e instanceof Fact) {
@@ -61,34 +59,12 @@ public class TrackingAgendaEventListener extends DefaultAgendaEventListener{
             }
         }
 
-        /*
-        for (Fact f : lhs) {
-            //System.out.println(f.getId() + ":" + f);
-        }
-        */
-
-        //System.out.println("RHS:");
         for (Fact f: rhs) {
-            //System.out.println(f.getId() + ":" + f);
             Justification j = new Justification(ruleName, lhs, f);
             DefectDiagnostic.justifications.put(f.getId(), j);
         }
 
         resetLhs();
         resetRhs();
-
-        /*
-        matchList.add(event.getMatch());
-        StringBuilder sb = new StringBuilder();
-        sb.append("Rule fired: " + ruleName);
-
-        if (ruleMetaDataMap.size() > 0) {
-            sb.append("\n  With [" + ruleMetaDataMap.size() + "] meta-data:");
-            for (String key : ruleMetaDataMap.keySet()) {
-                sb.append("\n    key=" + key + ", value=" + ruleMetaDataMap.get(key));
-            }
-        }
-        */
-        //System.out.println(sb.toString());
     }
 }
