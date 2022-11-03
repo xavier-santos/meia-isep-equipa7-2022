@@ -1,0 +1,164 @@
+/*
+ * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
+package org.defect.collapsed;
+
+import org.engcia.model.Evidence;
+import org.engcia.model.Hypothesis;
+import org.engcia.model.Conclusion;
+import org.engcia.model.Fact;
+
+import function org.engcia.view.QuestionFactory.answer;
+
+query "Conclusions"
+	$conclusion : Conclusion()
+end
+
+rule "r1"
+	when
+		eval(answer(Evidence.TEMPERATURE_CHECK, "no" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.TEMPERATURE_ADJUSTMENT);
+		insert(c);
+end
+
+rule "r2"
+	when
+		eval(answer(Evidence.TEMPERATURE_CHECK, "yes" ))
+	then
+		Hypothesis h = Hypothesis.create("temperature state", "ok");
+		insert(h);
+end
+
+rule "r3"
+	when
+		Hypothesis( description == "temperature state", value == "ok")
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "no" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.TRAJECTORY_CORRECTION);
+		insert(c);
+end
+
+rule "r4"
+	when
+		Hypothesis( description == "temperature state", value == "ok")
+		eval(answer(Evidence.INJECTION_TRAJECTORY, "yes" ))
+	then
+		Hypothesis h = Hypothesis.create("injection trajectory", "correct");
+		insert(h);
+end
+
+rule "r5"
+	when
+		Hypothesis( description == "injection trajectory", value == "correct")
+		eval(answer(Evidence.AUTOVENT_OPERATION, "no" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.AUTOVENT_MAINTENANCE);
+		insert(c);
+end
+
+rule "r6"
+	when
+		Hypothesis( description == "injection trajectory", value == "correct")
+		eval(answer(Evidence.AUTOVENT_OPERATION, "yes" ))
+	then
+		Hypothesis h = Hypothesis.create("autovent operation", "correct");
+		insert(h);
+end
+
+rule "r7"
+	when
+		Hypothesis( description == "autovent operation", value == "correct")
+		eval(answer(Evidence.SEAL_ANOMALIES, "yes" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.SEAL_TAPE_PLACING);
+		insert(c);
+end
+
+rule "r8"
+	when
+		Hypothesis( description == "autovent operation", value == "correct")
+		eval(answer(Evidence.SEAL_ANOMALIES, "no" ))
+	then
+		Hypothesis h = Hypothesis.create("visible anomalies", "no");
+		insert(h);
+end
+
+rule "r9"
+	when
+		Hypothesis( description == "visible anomalies", value == "no")
+		eval(answer(Evidence.FOAM_INJECTION_PARAMETERS, "no" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.RESET_PARAMETERS);
+		insert(c);
+end
+
+rule "r10"
+	when
+		Hypothesis( description == "visible anomalies", value == "no")
+		eval(answer(Evidence.FOAM_INJECTION_PARAMETERS, "yes" ))
+	then
+		Hypothesis h = Hypothesis.create("injection foam parameters", "ok");
+		insert(h);
+end
+
+rule "r11"
+	when
+		Hypothesis( description == "injection foam parameters", value == "ok")
+		eval(answer(Evidence.FOAMMAT_SUCCESS, "yes" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.REPLACE_PRODUCTS);
+		insert(c);
+end
+
+rule "r12"
+	when
+		Hypothesis( description == "injection foam parameters", value == "ok")
+		eval(answer(Evidence.FOAMMAT_SUCCESS, "no" ))
+	then
+		Hypothesis h = Hypothesis.create("foammat test", "failed");
+		insert(h);
+end
+
+rule "r13"
+	when
+		Hypothesis( description == "foammat test", value == "failed")
+		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "no" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.REVIEW_PRODUCT_DEBTS);
+		insert(c);
+end
+
+rule "r14"
+	when
+		Hypothesis( description == "foammat test", value == "failed")
+		eval(answer(Evidence.EXPECTED_PRODUCT_DEBTS, "yes" ))
+	then
+		Conclusion c = Conclusion.create(Conclusion.REPLACE_PRODUCTS);
+		insert(c);
+end
+
+rule "unknown"
+	when
+		not Conclusion()
+	then
+		Conclusion c = Conclusion.create(Conclusion.UNKNOWN);
+		insert(c);
+end
+
+query "evidence"(String ev, String v)
+	e : Evidence( evidence == ev, value == v )
+end
+

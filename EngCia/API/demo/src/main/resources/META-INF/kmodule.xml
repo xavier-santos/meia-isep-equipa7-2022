@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+  <!-- This is a minimal kmodule.xml. Ref Drools documentation, see http://docs.jboss.org/drools/release/6.1.0.Final/drools-docs/html_single/index.html#d0e1112 -->
+  <kbase name="rules-bubbled-foam-part" packages="org.defect.bubbled">
+    <ksession name="ksession-rules-bubbled"/>
+  </kbase>
+  <kbase name="rules-collapsed-foam-part" packages="org.defect.collapsed">
+    <ksession name="ksession-rules-collapsed"/>
+  </kbase>
+  <kbase name="rules-lack-of-component" packages="org.defect.lackcomponent">
+    <ksession name="ksession-rules-lackcomponent"/>
+  </kbase>
+  <kbase name="rules-lack-of-feeling" packages="org.defect.lackfilling">
+    <ksession name="ksession-rules-lackfilling"/>
+  </kbase>
+  <kbase name="rules-misplaced-component" packages="org.defect.misplaced">
+    <ksession name="ksession-rules-misplaced"/>
+  </kbase>
+  <kbase name="rules-ripped-foam-part" packages="org.defect.ripped">
+    <ksession name="ksession-rules-ripped"/>
+  </kbase>
+</kmodule>
