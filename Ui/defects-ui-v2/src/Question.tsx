@@ -10,8 +10,8 @@ export default function Question(){
 
     const navigate = useNavigate();
     const buttons = [
-        <Button sx={{ color: '#5b446a', borderColor: '#5b446a'}} key="yes" variant="outlined" color="secondary" onClick={() => onButtonClicked(true)}>Yes</Button>,
-        <Button sx={{ color: '#5b446a', borderColor: '#5b446a'}}  key="no" variant="outlined" color="secondary" onClick={() => onButtonClicked(false)}>No</Button>
+        <Button sx={{ backgroundColor: '#906387'}} key="yes" variant="contained" color="secondary" onClick={() => onButtonClicked(true)}>Yes</Button>,
+        <Button sx={{ backgroundColor: '#906387'}}  key="no" variant="contained" color="secondary" onClick={() => onButtonClicked(false)}>No</Button>
       ];
       const onButtonClicked = (answer: boolean) =>{
         axios.post(config.API_URL+'nextStep',null, {
