@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, ButtonGroup } from "@mui/material"
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material"
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "./config";
@@ -10,8 +10,8 @@ export default function Question(){
 
     const navigate = useNavigate();
     const buttons = [
-        <Button key="yes" onClick={() => onButtonClicked(true)}>Yes</Button>,
-        <Button key="no" onClick={() => onButtonClicked(false)}>No</Button>
+        <Button sx={{ color: '#5b446a', borderColor: '#5b446a'}} key="yes" variant="outlined" color="secondary" onClick={() => onButtonClicked(true)}>Yes</Button>,
+        <Button sx={{ color: '#5b446a', borderColor: '#5b446a'}}  key="no" variant="outlined" color="secondary" onClick={() => onButtonClicked(false)}>No</Button>
       ];
       const onButtonClicked = (answer: boolean) =>{
         axios.post(config.API_URL+'nextStep',null, {
@@ -34,10 +34,17 @@ export default function Question(){
           console.log(error);
         });
       }
-    return<div>
-        <h1>{question}</h1>
-        <ButtonGroup variant="text" aria-label="text button group">
-        {buttons}
-        </ButtonGroup>
-    </div>
+    return(
+
+<Card variant="outlined" sx={{ width: '40%', margin: 'auto auto', marginTop: '20px', maxWidth: '500px', textAlign: 'center', color: '#5b446a', backgroundColor: 'rgb(237, 247, 237)' }}>
+<CardContent>
+  <Typography gutterBottom variant="h5" component="div">
+    {question}
+  </Typography>
+</CardContent>
+<CardActions sx={{ justifyContent: "space-between", marginInline: '20%' }}>
+  {buttons}
+</CardActions>
+</Card>
+    )
 }

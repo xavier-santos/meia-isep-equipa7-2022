@@ -10,12 +10,12 @@ import { useNavigate } from "react-router-dom";
 function App() {
   const navigate = useNavigate();
   const buttons = [
-    <Button key="ripped" onClick={() => onButtonClicked("ksession-rules-ripped")}>Ripped</Button>,
-    <Button key="bubbled" onClick={() => onButtonClicked("ksession-rules-bubbled")}>Bubbled</Button>,
-    <Button key="collapsed" onClick={() => onButtonClicked("ksession-rules-collapsed")}>Collapsed</Button>,
-    <Button key="lackofcomponent" onClick={() => onButtonClicked("ksession-rules-lackcomponent")}>Lack of component</Button>,
-    <Button key="misplaced" onClick={() => onButtonClicked("ksession-rules-misplaced")}>Misplaced component</Button>,
-    <Button key="lackoffilling" onClick={() => onButtonClicked("ksession-rules-lackfilling")}>Lack of filling</Button>,
+    <Button key="ripped" sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-ripped")}>Ripped</Button>,
+    <Button key="bubbled" sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-bubbled")}>Bubbled</Button>,
+    <Button key="collapsed" sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-collapsed")}>Collapsed</Button>,
+    <Button key="lackofcomponent" sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-lackcomponent")}>Lack of component</Button>,
+    <Button key="misplaced"  sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-misplaced")}>Misplaced component</Button>,
+    <Button key="lackoffilling"  sx={{ backgroundColor: '#4c9173'}} onClick={() => onButtonClicked("ksession-rules-lackfilling")}>Lack of filling</Button>,
   ];
   
   const onButtonClicked = (ruleName: string) =>{
@@ -36,27 +36,33 @@ function App() {
   }
   return (
     <div className="App">
-                  <Typography gutterBottom variant="h2" component="div">
-              Defect Detection
-            </Typography>
-    <Box
-      sx={{
-        display: 'flex',
-        '& > *': {
-          m: 1,
-        },
-      }}
-    >
-      <ButtonGroup
-        orientation="vertical"
-        aria-label="vertical contained button group"
-        variant="contained"
-        color="success"
 
-      >
-        {buttons}
-      </ButtonGroup>
-    </Box>
+      <Typography gutterBottom variant="h5" component="div" className="App-title">
+        MEIA 2022 - GROUP 7            
+      </Typography>
+      <div className="App-header">
+        <Typography gutterBottom variant="h2" component="div">
+          Defect Diagnostics
+        </Typography>
+        <Typography gutterBottom component="div" >
+          for car seats foam parts
+        </Typography>
+      </div>
+      <Typography gutterBottom variant="h6" className="App-select" component="div" >
+        Please select the Defect type:
+      </Typography>
+
+      <Box>
+        <ButtonGroup
+          orientation="vertical"
+          aria-label="vertical contained button group"
+          variant="contained"
+          color="success"
+          size="large"
+        >
+          {buttons}
+        </ButtonGroup>
+      </Box>
     </div>
   );
 }

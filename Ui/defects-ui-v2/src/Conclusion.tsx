@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Button, ButtonGroup } from "@mui/material"
-import axios from "axios";
+import { Alert, AlertTitle, Button } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom";
-import config from "./config";
 
 export default function Conclusion(){
     const location = useLocation();
@@ -11,8 +9,10 @@ export default function Conclusion(){
     const navigate = useNavigate();
 
     return<div>
-      <h1>{conclusion}</h1>
-      <h2>{how}</h2>
-      <Button key="home" onClick={() => navigate('/')}>Go Home</Button>
+      <Alert severity="success"  sx={{ width: '80%', margin: 'auto auto', marginTop: '20px', maxWidth: '500px' }}>
+        <AlertTitle>{conclusion}</AlertTitle>
+        <div>{how}</div>
+        <Button key="home" variant="outlined" color="success"   sx={{ marginTop: "20px"}} onClick={() => navigate('/')}>Go Home</Button>
+      </Alert>
     </div>
 }
