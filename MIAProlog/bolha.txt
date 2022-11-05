@@ -1,0 +1,85 @@
+:-dynamic facto/2, ultimo_facto/1, facto_perguntavel/1.
+
+
+% Metaconhecimento
+
+ultimo_facto(1).
+
+
+% Factos e suas regras
+
+facto_dispara_regras(escolhe_opcao(bolha,_), [1,2,3,4,5,6,7]).
+
+%Factos perguntaveis
+
+facto_perguntavel(escolhe_opcao(bolha,_)).
+facto_perguntavel(trajetoria_acordo_standard(sim,_)).
+facto_perguntavel(trajetoria_acordo_standard(nao,_)).
+facto_perguntavel(estado_funcionamento_gitos_desagaseificacao_correto(sim,_)).
+facto_perguntavel(estado_funcionamento_gitos_desagaseificacao_correto(nao,_)).
+facto_perguntavel(anomalias_visiveis_vedacao_molde(sim,_)).
+facto_perguntavel(anomalias_visiveis_vedacao_molde(nao,_)).
+facto_perguntavel(fitas_vedacao_molde(sim,_)).
+facto_perguntavel(fitas_vedacao_molde(nao,_)).
+facto_perguntavel(fitas_vedacao_bom_estado(sim,_)).
+facto_perguntavel(fitas_vedacao_bom_estado(nao,_)).
+facto_perguntavel(fitas_vedacao_posicao_correta(sim,_)).
+facto_perguntavel(fitas_vedacao_posicao_correta(nao,_)).
+
+%Factos com as questões a serem feitas ao utilizador
+
+facto_pergunta(escolhe_opcao, 'Qual é o defeito?', [bolha, colapso, componenteMalPosicionado, faltaDeComponente, faltaDeEnchimento, pecaRasgada]).
+facto_pergunta(trajetoria_acordo_standard, 'A trajetória de injeção está de acordo com o standard?', [sim, nao]).
+facto_pergunta(estado_funcionamento_gitos_desagaseificacao_correto, 'O estado de funcionamento dos gitos de desgaseificação é o correto?', [sim, nao]).
+facto_pergunta(anomalias_visiveis_vedacao_molde, 'Existem anomalias visíveis na vedação do molde?', [sim, nao]).
+facto_pergunta(fitas_vedacao_molde, 'Existem fitas de vedação no molde?', [sim, nao]).
+facto_pergunta(fitas_vedacao_bom_estado, 'As fitas de vedeção estão em bom estado?', [sim, nao]).
+facto_pergunta(fitas_vedacao_posicao_correta, 'A posição das fitas de vedação é correta?', [sim, nao]).
+facto_perguntavel(parametrizacao_correta_molde_especifico(sim,_)).
+facto_perguntavel(parametrizacao_correta_molde_especifico(nao,_)).
+
+
+%Regras a disparar
+
+
+% Bolha
+
+regra 1
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(nao,_)]
+	entao [cria_facto(tipo(1,_))].
+
+regra 2
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(nao,_)]
+	entao [cria_facto(tipo(2,_))].
+
+regra 3
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(nao,_)]
+	entao [cria_facto(tipo(3,_))].
+
+regra 4
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(sim,_) e fitas_vedacao_molde(nao,_)]
+	entao [cria_facto(tipo(4,_))].
+
+regra 5
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(sim,_) e fitas_vedacao_molde(sim,_) e fitas_vedacao_bom_estado(nao,_)]
+	entao [cria_facto(tipo(5,_))].
+
+regra 6
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(sim,_) e fitas_vedacao_molde(sim,_) e fitas_vedacao_bom_estado(sim,_) e fitas_vedacao_posicao_correta(nao,_)]
+	entao [cria_facto(tipo(6,_))].
+
+regra 7
+	se [inicio(sim,_) e escolhe_opcao(bolha,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(sim,_) e fitas_vedacao_molde(sim,_) e fitas_vedacao_bom_estado(sim,_) e fitas_vedacao_posicao_correta(sim,_)]
+	entao [cria_facto(tipo(3,_))].
+
+
+facto(1,inicio(sim, 1)).
+
+% tipos
+
+tipo(1, 'Fazer correcao trajetoria').
+tipo(2, 'Manutenção dos Gitos').
+tipo(3, 'Revisao do molde').
+tipo(4, 'Colocar fita de aluminio de vedação do molde').
+tipo(5, 'Substituir fitas de vedacao').
+tipo(6, 'Corrigir posicao das fitas de vedacao').

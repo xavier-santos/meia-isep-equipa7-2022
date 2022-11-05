@@ -1,0 +1,8 @@
+
+
+% Metaconhecimento
+
+
+inicia_pergunta(escolhe_opcao).
+
+facto_pergunta(escolhe_opcao, 'Qual é o defeito?', [bolha, colapso, componenteMalPosicionado, faltaDeComponente, faltaDeEnchimento, pecaRasgada]).
