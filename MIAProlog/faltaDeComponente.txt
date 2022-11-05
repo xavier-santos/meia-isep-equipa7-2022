@@ -20,6 +20,8 @@ facto_perguntavel(parametrizacao_correta_molde_especifico(nao,_)).
 
 %Factos com as questões a serem feitas ao utilizador
 
+
+
 facto_pergunta(sistema_visao_artificial_ligado, 'O sistema de visão artificial está ligado?', [sim, nao]).
 facto_pergunta(parametrizacao_correta_molde_especifico, 'A parametrização está correta para o molde em específico?', [sim, nao]).
 
