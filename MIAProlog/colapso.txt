@@ -18,10 +18,10 @@ facto_perguntavel(temperatura_molde_normal(sim,_)).
 facto_perguntavel(temperatura_molde_normal(nao,_)).
 facto_perguntavel(trajetoria_acordo_standard(sim,_)).
 facto_perguntavel(trajetoria_acordo_standard(nao,_)).
-facto_perguntavel(estado_funcionamento_gitos_desagaseificacao_correto(sim,_)).
-facto_perguntavel(estado_funcionamento_gitos_desagaseificacao_correto(nao,_)).
-facto_perguntavel(anomalias_visiveis_vedacao_molde(sim,_)).
-facto_perguntavel(anomalias_visiveis_vedacao_molde(nao,_)).
+facto_perguntavel(estado_gitos_correto(sim,_)).
+facto_perguntavel(estado_gitos_correto(nao,_)).
+facto_perguntavel(anomalias_vedacao_molde(sim,_)).
+facto_perguntavel(anomalias_vedacao_molde(nao,_)).
 facto_perguntavel(parametros_receita_injecao_espuma_acordo_standard(sim,_)).
 facto_perguntavel(parametros_receita_injecao_espuma_acordo_standard(nao,_)).
 facto_perguntavel(sucesso_teste_formmat(sim,_)).
@@ -34,8 +34,8 @@ facto_perguntavel(debitos_produtos_valores_expectaveis(nao,_)).
 
 facto_pergunta(temperatura_molde_normal, 'A temperatura do molde está normal? 56º +- 2º', [sim, nao]).
 facto_pergunta(trajetoria_acordo_standard, 'A trajetória de injeção está de acordo com o standard?', [sim, nao]).
-facto_pergunta(estado_funcionamento_gitos_desagaseificacao_correto, 'O estado de funcionamento dos gitos de desgaseificação é o correto?', [sim, nao]).
-facto_pergunta(anomalias_visiveis_vedacao_molde, 'Existem anomalias visíveis na vedação do molde?', [sim, nao]).
+facto_pergunta(estado_gitos_correto, 'O estado de funcionamento dos gitos de desgaseificação é o correto?', [sim, nao]).
+facto_pergunta(anomalias_vedacao_molde, 'Existem anomalias visíveis na vedação do molde?', [sim, nao]).
 facto_pergunta(parametros_receita_injecao_espuma_acordo_standard, 'Os parâmetros da receita de injeção da espuma está de acordo com o standard?', [sim, nao]).
 facto_pergunta(sucesso_teste_formmat, 'O teste FoamMat foi realizado com sucesso?', [sim, nao]).
 facto_pergunta(debitos_produtos_valores_expectaveis, 'Os débitos dos produtos encontram-se dentro dos valores expectáveis?', [sim, nao]).
@@ -54,27 +54,27 @@ regra 9
 	entao [cria_facto(tipo(1,_))].
 
 regra 10
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_acordo_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(nao,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_acordo_standard(sim,_) e estado_gitos_correto(nao,_)]
 	entao [cria_facto(tipo(2,_))].
 
 regra 11
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(sim,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_gitos_correto(sim,_) e anomalias_vedacao_molde(sim,_)]
 	entao [cria_facto(tipo(4,_))].
 
 regra 12
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(nao,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_gitos_correto(sim,_) e anomalias_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(nao,_)]
 	entao [cria_facto(tipo(8,_))].
 
 regra 13
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(sim,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_gitos_correto(sim,_) e anomalias_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(sim,_)]
 	entao [cria_facto(tipo(9,_))].
 
 regra 14
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(nao,_) e debitos_produtos_valores_expectaveis(sim,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_gitos_correto(sim,_) e anomalias_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(nao,_) e debitos_produtos_valores_expectaveis(sim,_)]
 	entao [cria_facto(tipo(9,_))].
 
 regra 15
-	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_funcionamento_gitos_desagaseificacao_correto(sim,_) e anomalias_visiveis_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(nao,_) e debitos_produtos_valores_expectaveis(nao,_)]
+	se [inicio(sim,_) e escolhe_opcao(colapso,_) e temperatura_molde_normal(sim,_) e trajetoria_injecao_standard(sim,_) e estado_gitos_correto(sim,_) e anomalias_vedacao_molde(nao,_) e parametros_receita_injecao_espuma_acordo_standard(sim,_) e sucesso_teste_formmat(nao,_) e debitos_produtos_valores_expectaveis(nao,_)]
 	entao [cria_facto(tipo(10,_))].
 
 
